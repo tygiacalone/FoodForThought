@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FullProfileActivity"
+            android:label="@string/title_activity_full_profile"
+            android:parentActivityName=".ClickHandlerActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClickHandlerActivity" />
+        </activity>
     </application>
 
 </manifest>

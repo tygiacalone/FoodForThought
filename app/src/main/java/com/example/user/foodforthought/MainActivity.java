@@ -1,9 +1,11 @@
 package com.example.user.foodforthought;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +14,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+
+    // Responds to clicking image on activity_main.xml.
+    // Should redirect to profile.xml
+    public void clickMainProfileHandler(View view)
+    {
+        Intent intent = new Intent(this, FullProfileActivity.class);
+        startActivity(intent);
     }
 
 
@@ -29,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //noinspection SimplifiableIfStatementhe d
         if (id == R.id.action_settings) {
             return true;
         }
