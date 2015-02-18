@@ -5,7 +5,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="204dp"
+            android:layout_height="148dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal|top"
+            android:background="#ff101bff"
+            android:src="@drawable/ic_launcher"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_above="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:onClick="clickMainProfileHandler" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:id="@+id/button"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_gravity="left|center_vertical" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:id="@+id/button2"
+            android:layout_gravity="left|center_vertical"
+            android:layout_alignTop="@+id/button"
+            android:layout_alignRight="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
