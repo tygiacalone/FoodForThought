@@ -19,10 +19,10 @@
         <activity
             android:name=".FullProfileActivity"
             android:label="@string/title_activity_full_profile"
-            android:parentActivityName=".ClickHandlerActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ClickHandlerActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 
