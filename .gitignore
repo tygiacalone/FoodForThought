@@ -58,6 +58,24 @@ local.properties
 .gradle
 build/
 
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Generated files
+bin/
+gen/
+
+# Gradle files
+.gradle/
+.gradletasknamecache
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
 /*/out
 /*/*/build
 /*/*/production
