@@ -4,7 +4,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-
 import com.parse.*;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -26,8 +25,8 @@ public class FullProfileActivity extends ActionBarActivity {
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
         ParseUser user = new ParseUser();
-        user.setUsername("John");
-        user.setPassword("Doe");
+        user.setUsername("John Doe");
+        user.setPassword("12345");
         user.setEmail("jdoe@example.com");
 
         // other fields can be set just like with ParseObject
@@ -53,7 +52,8 @@ public class FullProfileActivity extends ActionBarActivity {
         // Create the list of items to be put on the profile
         // temp is a placeholder list
         profileItems = new ArrayList<String>();
-        String[] temp = new String[] {"eBay", "Google", "Facebook"};
+        String[] temp = new String[] {user.getUsername(), user.getEmail()};
+
         profileItems.addAll(Arrays.asList(temp));
 
         // Create ArrayAdapter using the profileItems list
