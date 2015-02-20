@@ -1,9 +1,12 @@
 package com.example.user.foodforthought;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import com.parse.*;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -12,9 +15,13 @@ import java.util.Arrays;
 
 public class FullProfileActivity extends ActionBarActivity {
 
-    private ListView profileListView;
     private ArrayList<String> profileItems;
-    private ArrayAdapter<String> profileListAdapter;
+    private ListView profileListView;
+    private ListViewAdapter profileListViewAdapter;
+    private String companyNames[] = {"eBay", "Facebook", "Google"};
+    private String companyJobs[] = {"intern1", "intern2", "intern3"};
+    private String companyDates[] = {"2012-2013", "2013-2014", "2014-2015"};
+    private String companyInfo[] = {"a b c d", "i j k l", "w x y z"};
 
 
     @Override
@@ -58,7 +65,13 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
+        profileListViewAdapter = new ListViewAdapter(this, companyNames,
+                companyJobs, companyDates, companyInfo);
 
+        // Set the ListView Adapter
+        profileListView.setAdapter(profileListViewAdapter);
+
+/*
         // Create the list of items to be put on the profile
         // temp is a placeholder list
         profileItems = new ArrayList<String>();
@@ -71,13 +84,7 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Add second profile info to list.
         String[] temp2 = new String[] {user.getUsername(), user.getEmail()};
-        profileItems.addAll(Arrays.asList(temp2));
-
-
-        // Create ArrayAdapter using the profileItems list
-        profileListAdapter = new ArrayAdapter<String>(this, R.layout.simple_row, profileItems);
-        // Set the ArrayAdapter as the ListView's adapter
-        profileListView.setAdapter(profileListAdapter);
+        profileItems.addAll(Arrays.asList(temp2)); */
     }
 
 /*
