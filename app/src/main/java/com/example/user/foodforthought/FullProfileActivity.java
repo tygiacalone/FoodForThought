@@ -8,9 +8,17 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import com.parse.*;
+import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class FullProfileActivity extends ActionBarActivity {
+
+    private ListView profileListView;
+    private ArrayList<String> profileItems;
+    private ArrayAdapter<String> profileListAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,20 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Set layout file for Activity
         setContentView(R.layout.activity_full_profile);
+
+        // Find the ListView resource
+        profileListView = (ListView) findViewById(R.id.profileList);
+
+        // Create the list of items to be put on the profile
+        // temp is a placeholder list
+        profileItems = new ArrayList<String>();
+        String[] temp = new String[] {"eBay", "Google", "Facebook"};
+        profileItems.addAll(Arrays.asList(temp));
+
+        // Create ArrayAdapter using the profileItems list
+        profileListAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, profileItems);
+        // Set the ArrayAdapter as the ListView's adapter
+        profileListView.setAdapter(profileListAdapter);
     }
 
 /*
