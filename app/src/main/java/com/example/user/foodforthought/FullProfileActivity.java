@@ -1,12 +1,10 @@
 package com.example.user.foodforthought;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+
 import com.parse.*;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -59,7 +57,7 @@ public class FullProfileActivity extends ActionBarActivity {
         profileItems.addAll(Arrays.asList(temp));
 
         // Create ArrayAdapter using the profileItems list
-        profileListAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, profileItems);
+        profileListAdapter = new ArrayAdapter<String>(this, R.layout.simple_row, profileItems);
         // Set the ArrayAdapter as the ListView's adapter
         profileListView.setAdapter(profileListAdapter);
     }
