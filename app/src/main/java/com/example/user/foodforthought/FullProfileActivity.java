@@ -43,6 +43,16 @@ public class FullProfileActivity extends ActionBarActivity {
             }
         });
 
+        ParseUser.logInInBackground("John Doe", "12345", new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    // Hooray! The user is logged in.
+                } else {
+                    // Signup failed. Look at the ParseException to see what happened.
+                }
+            }
+        });
+
         // Set layout file for Activity
         setContentView(R.layout.activity_full_profile);
 
@@ -55,6 +65,14 @@ public class FullProfileActivity extends ActionBarActivity {
         String[] temp = new String[] {user.getUsername(), user.getEmail()};
 
         profileItems.addAll(Arrays.asList(temp));
+
+        // Add second profile
+        user = ParseUser.getCurrentUser();
+
+        // Add second profile info to list.
+        String[] temp2 = new String[] {user.getUsername(), user.getEmail()};
+        profileItems.addAll(Arrays.asList(temp2));
+
 
         // Create ArrayAdapter using the profileItems list
         profileListAdapter = new ArrayAdapter<String>(this, R.layout.simple_row, profileItems);

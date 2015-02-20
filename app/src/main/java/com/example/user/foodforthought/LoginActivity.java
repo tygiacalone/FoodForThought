@@ -134,13 +134,12 @@ public class LoginActivity extends Activity {
         //Do things to authenticate with LinkedIn after you click button
 
         //Get LinkedIn data to create user database
-
-
         /**
          * ********************************************************
          * Replace values below with appropriate data from LinkedIn
          * ********************************************************
          */
+
         ParseUser user = new ParseUser();
         user.setUsername("Login Man");
         user.setPassword("54321");
