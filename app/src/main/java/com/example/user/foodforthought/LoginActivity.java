@@ -131,7 +131,12 @@ public class LoginActivity extends Activity {
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
-        //Do things to authenticate with LinkedIn after you click button
+
+        /**
+         * ********************************************************
+         * Authenticate with LinkedIn after you click button
+         * ********************************************************
+         */
 
         //Get LinkedIn data to create user database
         /**
