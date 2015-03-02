@@ -1,18 +1,34 @@
 package com.example.user.foodforthought;
 
-import com.example.user.foodforthought.util.SystemUiHider;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import com.parse.*;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.user.foodforthought.util.SystemUiHider;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+
+import com.linkedin.platform.LISession;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 
 /**
@@ -57,9 +73,11 @@ public class LoginActivity extends Activity {
 
         setContentView(R.layout.activity_login);
         setupActionBar();
+        setUpdateState();
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+        final Activity thisActivity = this;
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -118,7 +136,39 @@ public class LoginActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        Button LiLogin = (Button)findViewById(R.id.login_li);
+        LiLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
+                    @Override
+                    public void onAuthSuccess() {
+                        setUpdateState();
+                        Toast.makeText(getApplicationContext(), "success" + LISessionManager.getInstance(getApplicationContext()).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
+                        ((TextView) findViewById(R.id.at)).setText("Error is called" );
+                    }
+                    @Override
+                    public void onAuthError(LIAuthError error) {
+                        setUpdateState();
+                        ((TextView) findViewById(R.id.at)).setText(error.toString());
+                        LISessionManager sessionManager = LISessionManager.getInstance(getApplicationContext());
+                        LISession session = sessionManager.getSession();
+                        Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+
+                    }
+                }, true);
+            }
+        });
+
+        Button liClear=(Button)findViewById(R.id.clearSession);
+        liClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                LISessionManager.getInstance(getApplicationContext()).clearSession();
+                setUpdateState();
+
+            }
+        });
     }
 
 
@@ -242,5 +292,18 @@ public class LoginActivity extends Activity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private void setUpdateState() {
+        LISessionManager sessionManager = LISessionManager.getInstance(getApplicationContext());
+        LISession session = sessionManager.getSession();
+        boolean accessTokenValid = session.isValid();
+
+        ((TextView) findViewById(R.id.at)).setText(accessTokenValid? session.getAccessToken().toString(): "Login failed" );
+
+    }
+
+    private static Scope buildScope(){
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
     }
 }
