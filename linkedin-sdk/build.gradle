@@ -4,7 +4,8 @@ allprojects {
     }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: 'android-library'
+apply plugin: 'robolectric'
 
 android {
     sourceSets {
@@ -40,4 +41,5 @@ dependencies {
     compile files('libs/volley.jar')
     androidTestCompile 'junit:junit:4.12'
     compile 'com.android.support:support-annotations:21.0.3'
+    androidTestCompile('org.robolectric:robolectric:2.4')
 }
