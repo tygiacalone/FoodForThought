@@ -23,7 +23,7 @@
             android:background="@color/black_overlay" android:orientation="horizontal"
             tools:ignore="UselessParent">
 
-            <Button android:id="@+id/login_li" style="?metaButtonBarButtonStyle"
+            <Button android:id="@+id/login_li_button" style="?metaButtonBarButtonStyle"
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="@string/login_button"
                 android:onClick="linkedInAuthenticateClickHandler" />
@@ -35,16 +35,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
-            android:id="@+id/clearSession"
+            android:id="@+id/logout_li_button"
             android:layout_gravity="left|center_vertical" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="access token value" />
 
-    <EditText
-        android:layout_width="166dp"
-        android:layout_height="106dp"
-        android:id="@+id/at"
-        android:layout_gravity="center_horizontal"
-        android:clickable="false" />
+
+    </FrameLayout>
 
 </FrameLayout>

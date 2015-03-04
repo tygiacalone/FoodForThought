@@ -13,6 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.util.Base64;
+import android.util.Log;
 
 import com.example.user.foodforthought.util.SystemUiHider;
 import com.parse.Parse;
@@ -66,12 +71,14 @@ public class LoginActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    public static final String PACKAGE_FOODFORDTHOUGHT = "com.example.user.foodforthought";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
+
         setupActionBar();
         setUpdateState();
 
@@ -136,8 +143,8 @@ public class LoginActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        Button LiLogin = (Button)findViewById(R.id.login_li);
-        LiLogin.setOnClickListener(new View.OnClickListener() {
+        Button liLoginButton = (Button) findViewById(R.id.login_li_button);
+        liLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
@@ -145,30 +152,26 @@ public class LoginActivity extends Activity {
                     public void onAuthSuccess() {
                         setUpdateState();
                         Toast.makeText(getApplicationContext(), "success" + LISessionManager.getInstance(getApplicationContext()).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
-                        ((TextView) findViewById(R.id.at)).setText("Error is called" );
                     }
                     @Override
                     public void onAuthError(LIAuthError error) {
                         setUpdateState();
                         ((TextView) findViewById(R.id.at)).setText(error.toString());
-                        LISessionManager sessionManager = LISessionManager.getInstance(getApplicationContext());
-                        LISession session = sessionManager.getSession();
                         Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
-
                     }
                 }, true);
             }
         });
 
-        Button liClear=(Button)findViewById(R.id.clearSession);
-        liClear.setOnClickListener(new View.OnClickListener() {
+        Button liForgetButton = (Button) findViewById(R.id.logout_li_button);
+        liForgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 LISessionManager.getInstance(getApplicationContext()).clearSession();
                 setUpdateState();
-
             }
         });
+
     }
 
 
@@ -294,6 +297,11 @@ public class LoginActivity extends Activity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
+    }
+
     private void setUpdateState() {
         LISessionManager sessionManager = LISessionManager.getInstance(getApplicationContext());
         LISession session = sessionManager.getSession();
@@ -302,6 +310,7 @@ public class LoginActivity extends Activity {
         ((TextView) findViewById(R.id.at)).setText(accessTokenValid? session.getAccessToken().toString(): "Login failed" );
 
     }
+
 
     private static Scope buildScope(){
         return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
