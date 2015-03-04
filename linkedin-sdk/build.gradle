@@ -9,7 +9,7 @@ apply plugin: 'com.android.library'
 android {
     sourceSets {
         androidTest {
-         setRoot('src/test')
+            setRoot('src/test')
         }
     }
     compileSdkVersion 21
