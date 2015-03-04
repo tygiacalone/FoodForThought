@@ -13,11 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.util.Base64;
-import android.util.Log;
+
 
 import com.example.user.foodforthought.util.SystemUiHider;
 import com.parse.Parse;
@@ -31,8 +27,6 @@ import com.linkedin.platform.errors.LIAuthError;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 
@@ -71,8 +65,6 @@ public class LoginActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
-    private static final String TAG = LoginActivity.class.getSimpleName();
-    public static final String PACKAGE_FOODFORDTHOUGHT = "com.example.user.foodforthought";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
