@@ -5,13 +5,9 @@ allprojects {
 }
 
 apply plugin: 'android-library'
-apply plugin: 'robolectric'
-
 android {
     sourceSets {
-        androidTest {
-            setRoot('src/test')
-        }
+
     }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -41,5 +37,4 @@ dependencies {
     compile files('libs/volley.jar')
     androidTestCompile 'junit:junit:4.12'
     compile 'com.android.support:support-annotations:21.0.3'
-    androidTestCompile('org.robolectric:robolectric:2.4')
 }
