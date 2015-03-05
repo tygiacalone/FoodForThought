@@ -16,6 +16,10 @@ import android.widget.Toast;
 
 
 import com.example.user.foodforthought.util.SystemUiHider;
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -65,6 +69,8 @@ public class LoginActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
+    private static final String request = "https://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +149,18 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onAuthSuccess() {
                         setUpdateState();
-                        Toast.makeText(getApplicationContext(), "success" + LISessionManager.getInstance(getApplicationContext()).getSession().getAccessToken().toString(), Toast.LENGTH_LONG).show();
+                        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+                        apiHelper.getRequest(LoginActivity.this, request, new ApiListener() {
+                            @Override
+                            public void onApiSuccess(ApiResponse apiResponse) {
+                                ((TextView) findViewById(R.id.at)).setText(apiResponse.toString());
+                            }
+
+                            @Override
+                            public void onApiError(LIApiError LIApiError) {
+
+                            }
+                        });
                     }
                     @Override
                     public void onAuthError(LIAuthError error) {
@@ -154,6 +171,7 @@ public class LoginActivity extends Activity {
                 }, true);
             }
         });
+
 
         Button liForgetButton = (Button) findViewById(R.id.logout_li_button);
         liForgetButton.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +191,6 @@ public class LoginActivity extends Activity {
          * For Samuel and Antonio to fill out
          * @param view
          */
-
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
 
@@ -305,6 +322,6 @@ public class LoginActivity extends Activity {
 
 
     private static Scope buildScope(){
-        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE);
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
     }
 }
