@@ -82,6 +82,8 @@ public class LoginActivity extends Activity {
         setupActionBar();
         setUpdateState();
 
+        Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
+
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
         final Activity thisActivity = this;
@@ -140,23 +142,36 @@ public class LoginActivity extends Activity {
             }
         });
 
+        /*
+        // Check if already been logged in
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            // Go to MainActivity
+            Intent intent = new Intent(thisActivity, MainActivity.class);
+            startActivity(intent);
+        }
+        */
+
         /* Set custom font on button - doesn't work on XML button
         Typeface helvetica = Typeface.createFromAsset(getApplicationContext().getAssets(), "HelveticaInseratLTStd-Roman.otf");
         Button loginLinkedInButton = (Button) findViewById(R.id.login_li_button);
         loginLinkedInButton.setTypeface(helvetica);
         */
 
-        Button liForgetButton = (Button) findViewById(R.id.logout_li_button);
-        liForgetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LISessionManager.getInstance(getApplicationContext()).clearSession();
-                setUpdateState();
-            }
-        });
+    }
+    public void logoutButtonClickHandler(View view){
+        LISessionManager.getInstance(getApplicationContext()).clearSession();
+        setUpdateState();
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.logOut();
+            Toast.makeText(getApplicationContext(),
+                    "Logged out of Parse.",
+                    Toast.LENGTH_LONG).show();
+        }
 
     }
-
 
     public void linkedInAuthenticateClickHandler(View view){
 
@@ -164,7 +179,6 @@ public class LoginActivity extends Activity {
          * For Samuel and Antonio to fill out
          * @param view
          */
-        Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
 
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -195,11 +209,6 @@ public class LoginActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
             }
         }, true);
-        /**
-         * ********************************************************
-         * Authenticate with LinkedIn after you click button
-         * ********************************************************
-         */
 
         //Get LinkedIn data to create user database
         /**
