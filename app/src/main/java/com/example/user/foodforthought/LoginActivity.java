@@ -208,7 +208,7 @@ public class LoginActivity extends Activity {
                 ((TextView) findViewById(R.id.at)).setText(error.toString());
                 Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
             }
-        }, true);
+        }, true);;
 
         //Get LinkedIn data to create user database
         /**
@@ -230,8 +230,9 @@ public class LoginActivity extends Activity {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                 } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
+                    Toast.makeText(getApplicationContext(),
+                            "There was an error signing up.",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
