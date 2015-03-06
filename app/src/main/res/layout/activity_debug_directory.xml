@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Checklist:\n 1. PROFILE CREATION:\n - Fill fields in parse user account with LinkedIn data. Company name, job title, description, picture, etc"
+        android:text="Checklist:\n 1. PROFILE CREATION:\n - Fill fields in parse user account with LinkedIn data as well as GPS location. Company name, job title, description, picture, etc"
         android:id="@+id/textView"
         android:textSize="12sp"
         android:visibility="visible"
