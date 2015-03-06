@@ -21,6 +21,7 @@ import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.listeners.ApiListener;
 import com.linkedin.platform.listeners.ApiResponse;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -226,10 +227,24 @@ public class LoginActivity extends Activity {
             }
         });
 
+        // Login with parse
+        /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I maen) */
+        final Activity thisActivity = this;       //This field, "54321"
+        ParseUser.logInInBackground(user.getUsername(), "54321", new LogInCallback() {
+                    public void done(ParseUser user, com.parse.ParseException e) {
+                        if (user != null) {
+                            //start sinch service
+                            //After finishing, go to MainActivity
+                            Intent intent = new Intent(thisActivity, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "There was an error logging in.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
-        //After finishing, go to start activity
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 
