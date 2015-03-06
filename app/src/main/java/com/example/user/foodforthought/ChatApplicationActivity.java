@@ -54,6 +54,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
 
         /** Intermittently check for new messages and refresh list of messages on screen */
         final ParseUser user = currentUser;
+        redrawMessageList(user);
 
         redrawTimer = new Timer();
         redrawTimer.schedule(new TimerTask() {
@@ -61,7 +62,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
             public void run(){
                 redrawMessageList(user);
             }
-        },0, 2000); //2000ms == update every 2 seconds
+        },0, 10000); //10000ms == update every 10 seconds
     }
 
     //Arg = user's ID
@@ -108,13 +109,10 @@ public class ChatApplicationActivity extends ActionBarActivity {
         /** Save text field into a message */
         messageText = (EditText) findViewById(R.id.messageText);
 
-
-        Toast.makeText(getApplicationContext(),
-                messageText.getText(),
-                Toast.LENGTH_LONG).show();
+        if (messageText.getText().toString().equals(""))
+            return;
 
         /** Save message on user and recipient's message list */
-        // Add to currentId and
         ParseObject message = new ParseObject("message");
         message.put("text", messageText.getText().toString());
         message.put("recipient", "John Doe");
