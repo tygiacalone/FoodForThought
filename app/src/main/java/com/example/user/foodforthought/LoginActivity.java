@@ -237,8 +237,8 @@ public class LoginActivity extends Activity {
             }
         });
 
-        // Login with parse
-        /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I maen) */
+        // Login with Parse
+        /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I mean) */
         final Activity thisActivity = this;       //This field, "54321"
         ParseUser.logInInBackground(user.getUsername(), "54321", new LogInCallback() {
                     public void done(ParseUser user, com.parse.ParseException e) {
