@@ -23,6 +23,8 @@ import com.parse.ParseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ChatApplicationActivity extends ActionBarActivity {
@@ -33,6 +35,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
     ListView messagesList;
     MessageAdapter messageAdapter;
     ParseUser currentUser = ParseUser.getCurrentUser();
+    private Timer redrawTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,15 @@ public class ChatApplicationActivity extends ActionBarActivity {
         setupActionBar();
 
         /** Intermittently check for new messages and refresh list of messages on screen */
-        // Do some sort of check interval here, every 5-10 seconds (your own messages are refreshed instantly)
-            redrawMessageList(currentUser); // Not implemented
+        final ParseUser user = currentUser;
 
+        redrawTimer = new Timer();
+        redrawTimer.schedule(new TimerTask() {
+            @Override
+            public void run(){
+                redrawMessageList(user);
+            }
+        },0, 2000); //2000ms == update every 2 seconds
     }
 
     //Arg = user's ID
@@ -74,12 +83,10 @@ public class ChatApplicationActivity extends ActionBarActivity {
                     for( ParseObject singleMessage : messageList)
                     {
                         int sentByMe = 0;
-                        if (singleMessage.get("sender").toString() == user.getUsername())
+                        if (singleMessage.get("sender").toString().equals(user.getUsername()))
                             sentByMe = 1;
 
                         String textBody = singleMessage.get("text").toString();
-                        Log.d(singleMessage.get("sender").toString() + ": ", textBody);
-
                         messageAdapter.addMessage(textBody, sentByMe);
                     }
                 } else {
@@ -110,14 +117,16 @@ public class ChatApplicationActivity extends ActionBarActivity {
         // Add to currentId and
         ParseObject message = new ParseObject("message");
         message.put("text", messageText.getText().toString());
-        message.put("recipient", currentUser.getUsername());
-        message.put("sender", "John Doe");
+        message.put("recipient", "John Doe");
+        message.put("sender", currentUser.getUsername());
 
         message.saveInBackground();
 
 
         /** Update list of messages immediately when send is pressed */
         redrawMessageList(currentUser);
+
+        messageText.setText("");
     }
 
     /**
