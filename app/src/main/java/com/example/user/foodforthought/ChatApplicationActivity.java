@@ -43,6 +43,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
     public void redrawMessageList(ParseUser currentUser){
         /** Go through the message list and refresh the messages presented on screen. */
 
+        // This isn't working yet, MessageList hasn't been built in Parse.
         ParseQuery<ParseObject> query = ParseQuery.getQuery("MessageList");
         query.whereEqualTo("username", currentUser.getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {

@@ -1,6 +1,8 @@
 package com.example.user.foodforthought;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -55,13 +57,16 @@ public class FullProfileActivity extends ActionBarActivity {
                 if (user != null) {
                     // Hooray! The user is logged in.
                 } else {
-                    // Signup failed. Look at the ParseException to see what happened.
+                    // Sign up failed. Look at the ParseException to see what happened.
                 }
             }
         });
 
         // Set layout file for Activity
         setContentView(R.layout.activity_full_profile);
+
+        // Hides action bar
+        setupActionBar();
 
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
@@ -108,5 +113,16 @@ public class FullProfileActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setupActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Show the Up button in the action bar.
+            getSupportActionBar().hide();
+        }
     }
 }
