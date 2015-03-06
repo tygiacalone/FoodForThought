@@ -7,7 +7,7 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
     <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:keepScreenOn="true" android:textColor="#33b5e5"
+        android:layout_height="match_parent" android:keepScreenOn="true" android:textColor="#ffffff"
         android:textStyle="bold" android:textSize="50sp" android:gravity="center"
         android:text="@string/login_title_content" />
 
@@ -15,7 +15,8 @@
          android:fitsSystemWindows. -->
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:id="@+id/login_screen">
+        android:id="@+id/login_screen"
+        android:background="@drawable/activity_login_background">
 
         <LinearLayout android:id="@+id/fullscreen_content_controls" style="?metaButtonBarStyle"
             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
             android:id="@+id/at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal|top"
             android:text="access token value" />
 
 

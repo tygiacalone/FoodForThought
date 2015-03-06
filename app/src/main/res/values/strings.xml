@@ -8,7 +8,7 @@
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="login_button">Login with LinkedIn</string>
-    <string name="login_title_content">Food\nFor\nThought</string>
+    <string name="login_title_content">Food For Thought</string>
     <string name="title_activity_debug_directory">DebugDirectoryActivity</string>
     <string name="title_activity_launcher">LauncherActivity</string>
 
