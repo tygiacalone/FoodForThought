@@ -6,18 +6,97 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MatchesListActivity extends ActionBarActivity {
+    ListView matchesList;
+    MatchesListAdapter matchesAdapter;
+    ParseUser currentUser = ParseUser.getCurrentUser();
+    Timer redrawTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matches_list);
 
+        Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
+
+        matchesList = (ListView) findViewById(R.id.matchesList);
+        matchesAdapter = new MatchesListAdapter(this);
+        matchesList.setAdapter(matchesAdapter);
+
         // Hides action bar
         setupActionBar();
+
+        final ParseUser user = currentUser;
+
+        redrawMatchesList(user);
+/*
+        redrawTimer = new Timer();
+        redrawTimer.schedule(new TimerTask() {
+            @Override
+            public void run(){
+                redrawMatchesList(user);
+            }
+        },0, 2000); //2000ms == update every 2 seconds
+*/
     }
+
+    protected void onResume(Bundle savedInstanceState){
+
+
+    }
+
+
+    public void redrawMatchesList(ParseUser currentUser){
+        /** Go through the message list and refresh the messages presented on screen. */
+
+        final ParseUser user = currentUser;
+        String[] userIds = {currentUser.getUsername(), "John Doe"};
+
+        // Build list of messages sent between the currentUser and recipient
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
+        query.whereContainedIn("recipient", Arrays.asList(userIds));
+        query.whereContainedIn("sender", Arrays.asList(userIds)); // Replace with recipient username
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> messageList, ParseException e) {
+                if (e == null) {
+                    // Draw the messages sequentially from top by LIFO
+                    for( ParseObject singleMessage : messageList)
+                    {
+                        String textBody = singleMessage.get("sender").toString();
+                        int sentByMe = 0;
+                        if (singleMessage.get("recipient").toString().equals(user.getUsername()))
+                            matchesAdapter.addMessage(textBody, sentByMe);
+
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error retrieving message list.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+
+
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */

@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.parse.*;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -42,6 +46,33 @@ public class MainActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(this, FullProfileActivity.class);
         startActivity(intent);
+    }
+
+    //Make a match
+    public void yesMatchClickHandler(View view){
+        final ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
+        query.whereEqualTo("recipient", "John Doe");
+        query.whereEqualTo("sender", currentUser.getUsername());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> recipientList, ParseException e) {
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(),
+                            "Already swiped this user!",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    // If never seen before, add to DB
+                    ParseObject swipe = new ParseObject("swipe");
+                    swipe.put("recipient", "John Doe");
+                    swipe.put("sender", currentUser.getUsername());
+
+                    swipe.saveInBackground();
+                }
+            }
+        });
+
+
     }
 
     public void matchesButtonClickHandker(View view)
