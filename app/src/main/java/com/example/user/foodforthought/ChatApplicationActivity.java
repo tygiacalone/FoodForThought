@@ -1,6 +1,8 @@
 package com.example.user.foodforthought;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +31,9 @@ public class ChatApplicationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_application);
+
+        // Hides action bar
+        setupActionBar();
 
         /** Intermittently check for new messages and refresh list of messages on screen */
         redrawMessageList(currentUser); // Not implemented
@@ -71,6 +76,17 @@ public class ChatApplicationActivity extends ActionBarActivity {
 
         /** Update list of messages immediately when send is pressed */
         redrawMessageList(currentUser);
+    }
+
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setupActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Show the Up button in the action bar.
+            getSupportActionBar().hide();
+        }
     }
 
     @Override
