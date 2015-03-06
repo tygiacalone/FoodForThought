@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="2. STACK:\n  - Get stack of profiles showing up. Use GPS data and other data to create stack (This is pretty easy in Parse). Have new profile come up after &quot;Yes&quot; or &quot;No&quot;. Tracking likes and finding mutual likes has already been done."
+        android:text="2. STACK:\n  - Get stack of profiles showing up. Use GPS data and other data to create stack (This is pretty easy in Parse). Make sure profiles do not repeat unless absolutely necessary to populate the stack. Have new profile come up after &quot;Yes&quot; or &quot;No&quot;. Tracking likes and finding mutual likes has already been done."
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentStart="true"
