@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class ChatApplicationActivity extends ActionBarActivity {
@@ -14,6 +15,10 @@ public class ChatApplicationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_chat_application);
     }
 
+    public void sendButtonClickHandler(View view){
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
