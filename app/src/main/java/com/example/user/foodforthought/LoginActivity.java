@@ -231,7 +231,7 @@ public class LoginActivity extends Activity {
                     // Hooray! Let them use the app now.
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "There was an error signing up.",
+                            e.toString(),
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -249,7 +249,7 @@ public class LoginActivity extends Activity {
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(),
-                                    "There was an error logging in.",
+                                    e.toString(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
