@@ -12,21 +12,21 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/button3"
+        android:layout_marginStart="47dp"
+        android:onClick="goToLoginOnClickListener"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="86dp"
-        android:onClick="goToLoginOnClickListener" />
+        android:translationZ="1dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Main Page"
         android:id="@+id/button4"
-        android:layout_marginEnd="31dp"
+        android:onClick="goToMainPageOnClickListener"
         android:layout_alignTop="@+id/button3"
-        android:layout_alignParentEnd="true"
-        android:onClick="goToMainPageOnClickListener" />
+        android:layout_toEndOf="@+id/button5"
+        android:translationZ="1dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -35,45 +35,48 @@
         android:id="@+id/button5"
         android:onClick="goToChatOnClickListener"
         android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/button4"
+        android:layout_below="@+id/button3"
         android:layout_toEndOf="@+id/button3"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="41dp"
+        android:translationZ="1dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Checklist:\n 1. Fill fields in parse user account with LinkedIn data. Company name, job title, description, picture, etc"
+        android:text="Checklist:\n 1. PROFILE CREATION:\n - Fill fields in parse user account with LinkedIn data. Company name, job title, description, picture, etc"
         android:id="@+id/textView"
+        android:textSize="12sp"
+        android:visibility="visible"
+        android:background="#fffeff0f"
         android:layout_below="@+id/button5"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="55dp"
-        android:layout_alignParentEnd="true"
-        android:textSize="15dp"
-        android:visibility="visible"
-        android:background="#fffeff0f" />
+        android:layout_marginTop="36dp"
+        android:padding="4dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="2. Get stack of profiles showing up. Allow users to press &quot;Yes&quot; to store selection on database. Two mutual &quot;yes&quot;&apos;s should be recognized and added to a list of matches in each profile."
+        android:text="2. STACK:\n - Get navigation drawer layout working which will be able to display list of matches that link to chat page\n - Get stack of profiles showing up. Allow users to press &quot;Yes&quot; to store selection on database. Two mutual &quot;yes&quot;&apos;s should be recognized and added to a list of matches in each profile."
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentStart="true"
-        android:textSize="15dp"
+        android:textSize="12sp"
         android:visibility="visible"
-        android:background="#fffeff0f" />
+        android:background="#fffeff0f"
+        android:padding="4dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="3. Chat functionality. List of matches on slide out drawer on right hand side of main page that shows the stack of profiles. Should allow messages to be stored and timestamped and displayed when a user opens each chat box with another user. Also, should allow for sending of messages in real time."
+        android:text="3. CHAT:\n - Chat functionality. List of matches on slide out drawer on right hand side of main page that shows the stack of profiles. Should allow messages to be stored and timestamped and displayed when a user opens each chat box with another user. Also, should allow for sending of messages in real time."
         android:id="@+id/textView3"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
-        android:textSize="15dp"
+        android:textSize="12sp"
         android:visibility="visible"
-        android:background="#fffeff0f" />
+        android:background="#fffeff0f"
+        android:padding="4dp" />
 </RelativeLayout>
