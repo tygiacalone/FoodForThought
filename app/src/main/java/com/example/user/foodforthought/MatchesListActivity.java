@@ -1,26 +1,23 @@
 package com.example.user.foodforthought;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
-public class DebugDirectoryActivity extends ActionBarActivity {
+public class MatchesListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debug_directory);
+        setContentView(R.layout.activity_matches_list);
 
         // Hides action bar
         setupActionBar();
     }
-
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
@@ -32,26 +29,11 @@ public class DebugDirectoryActivity extends ActionBarActivity {
         }
     }
 
-    public void goToLoginOnClickListener(View view){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToMainPageOnClickListener(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-
-    public void goToChatOnClickListener(View view){
-        Intent intent = new Intent(this, ChatApplicationActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_debug_directory, menu);
+        getMenuInflater().inflate(R.menu.menu_matches_list, menu);
         return true;
     }
 

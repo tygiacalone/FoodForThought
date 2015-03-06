@@ -14,5 +14,6 @@
     <string name="title_activity_debug_directory">DebugDirectoryActivity</string>
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_chat_application">ChatApplicationActivity</string>
+    <string name="title_activity_matches_list">MatchesListActivity</string>
 
 </resources>

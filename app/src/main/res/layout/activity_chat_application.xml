@@ -1,58 +1,72 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    tools:context="com.sinch.messagingtutorial.app.ListUsersActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/listMessages"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:transcriptMode="alwaysScroll"
-        android:layout_above="@+id/divider"
-        tools:listitem="@layout/message_left"
-        android:padding="0dip"
-        android:divider="@null"
-        android:dividerHeight="0dp" android:stackFromBottom="true"
-    />
+        android:id="@+id/imageView4"
+        android:background="@drawable/navigation_bar" />
 
-    <RelativeLayout
-        android:id="@+id/divider"
-        android:layout_width="fill_parent"
-        android:layout_above="@+id/relSendMessage"
-        android:layout_height="1dip"
-    />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-    <RelativeLayout
-        android:id="@+id/relSendMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:background="@android:color/white"
-        android:paddingLeft="10dp"
-        android:layout_alignParentBottom="true">
-
-
-        <EditText
-            android:layout_marginBottom="-4dp"
-            android:id="@+id/messageText"
+        <ListView
+            android:id="@+id/listMessages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/chat_text_field_hint"
-            android:textSize="14sp"
-            android:layout_marginRight="10dp"
-            android:layout_alignTop="@+id/sendButton"
-            android:layout_alignBottom="@+id/sendButton"
-            android:layout_toLeftOf="@+id/sendButton"/>
+            android:layout_height="wrap_content"
+            android:transcriptMode="alwaysScroll"
+            android:layout_above="@+id/divider"
+            tools:listitem="@layout/message_left"
+            android:padding="0dip"
+            android:divider="@null"
+            android:dividerHeight="0dp" android:stackFromBottom="true"
+        />
 
-        <Button
-            android:layout_width="72dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_margin="4dp"
-            android:text="@string/chat_button_send"
-            android:onClick="sendButtonClickHandler"
-            android:id="@+id/sendButton" />
+        <RelativeLayout
+            android:id="@+id/divider"
+            android:layout_width="fill_parent"
+            android:layout_above="@+id/relSendMessage"
+            android:layout_height="1dip"
+        />
+
+        <RelativeLayout
+            android:id="@+id/relSendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:paddingLeft="10dp"
+            android:layout_alignParentBottom="true">
+
+
+            <EditText
+                android:layout_marginBottom="-4dp"
+                android:id="@+id/messageText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/chat_text_field_hint"
+                android:textSize="14sp"
+                android:layout_marginRight="10dp"
+                android:layout_alignTop="@+id/sendButton"
+                android:layout_alignBottom="@+id/sendButton"
+                android:layout_toLeftOf="@+id/sendButton"/>
+
+            <Button
+                android:layout_width="72dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_margin="4dp"
+                android:text="@string/chat_button_send"
+                android:onClick="sendButtonClickHandler"
+                android:id="@+id/sendButton" />
+        </RelativeLayout>
+
+
     </RelativeLayout>
-
-
-</RelativeLayout>
+</LinearLayout>
