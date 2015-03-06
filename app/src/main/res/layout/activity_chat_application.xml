@@ -5,11 +5,30 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:background="@drawable/navigation_bar" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/chatActivityBanner"
+            android:background="@drawable/navigation_bar" />
+
+        <TextView
+            android:id="@+id/mychatActivityBannerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/chatActivityBanner"
+            android:layout_alignTop="@+id/chatActivityBanner"
+            android:layout_alignRight="@+id/chatActivityBanner"
+            android:layout_alignBottom="@+id/chatActivityBanner"
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:text="Recipient Name"
+            android:textColor="#ffffffff"
+            android:textSize="20dp"
+            android:typeface="normal" />
+    </RelativeLayout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -23,7 +42,7 @@
             android:layout_height="wrap_content"
             android:transcriptMode="alwaysScroll"
             android:layout_above="@+id/divider"
-            tools:listitem="@layout/simple_text"
+            tools:listitem="@layout/simple_text_left"
             android:padding="0dip"
             android:divider="@null"
             android:dividerHeight="0dp" android:stackFromBottom="true"

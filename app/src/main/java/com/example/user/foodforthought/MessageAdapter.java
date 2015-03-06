@@ -30,9 +30,7 @@ public class MessageAdapter extends BaseAdapter
     }
     public void addMessage(String message, int direction) {
         messageList.add(new Pair(message, direction));
-
-        for( Pair<String, Integer> oneMessage : messageList)
-            Log.d("Text value: " + oneMessage.second, oneMessage.first);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -63,9 +61,9 @@ public class MessageAdapter extends BaseAdapter
         if (convertView == null) {
             int res = 0;
             if (direction == DIRECTION_INCOMING) {
-                res = R.layout.simple_text_right;
-            } else if (direction == DIRECTION_OUTGOING) {
                 res = R.layout.simple_text_left;
+            } else if (direction == DIRECTION_OUTGOING) {
+                res = R.layout.simple_text_right;
             }
             convertView = layoutInflater.inflate(res, viewGroup, false);
         }
@@ -73,6 +71,7 @@ public class MessageAdapter extends BaseAdapter
 
         TextView txtMessage = (TextView) convertView.findViewById(R.id.textMessage);
         Log.d("The message is: ", message);
+        Log.d("The direction is: ", "" + direction);
         txtMessage.setText(message);
         return convertView;
 
