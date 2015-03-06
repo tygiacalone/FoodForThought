@@ -138,40 +138,6 @@ public class LoginActivity extends Activity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        Button liLoginButton = (Button) findViewById(R.id.login_li_button);
-        liLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
-                    @Override
-                    public void onAuthSuccess() {
-                        setUpdateState();
-                        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
-                        apiHelper.getRequest(LoginActivity.this, request, new ApiListener() {
-                            @Override
-                            public void onApiSuccess(ApiResponse apiResponse) {
-                                ((TextView) findViewById(R.id.at)).setText(apiResponse.toString());
-                            }
-
-                            @Override
-                            public void onApiError(LIApiError LIApiError) {
-
-                            }
-                        });
-                    }
-                    @Override
-                    public void onAuthError(LIAuthError error) {
-                        setUpdateState();
-                        ((TextView) findViewById(R.id.at)).setText(error.toString());
-                        Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }, true);
-            }
-        });
-
 
         Button liForgetButton = (Button) findViewById(R.id.logout_li_button);
         liForgetButton.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +160,34 @@ public class LoginActivity extends Activity {
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
 
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+
+        LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                setUpdateState();
+                APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+                apiHelper.getRequest(LoginActivity.this, request, new ApiListener() {
+                    @Override
+                    public void onApiSuccess(ApiResponse apiResponse) {
+                        ((TextView) findViewById(R.id.at)).setText(apiResponse.toString());
+                    }
+
+                    @Override
+                    public void onApiError(LIApiError LIApiError) {
+
+                    }
+                });
+            }
+            @Override
+            public void onAuthError(LIAuthError error) {
+                setUpdateState();
+                ((TextView) findViewById(R.id.at)).setText(error.toString());
+                Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, true);
         /**
          * ********************************************************
          * Authenticate with LinkedIn after you click button
