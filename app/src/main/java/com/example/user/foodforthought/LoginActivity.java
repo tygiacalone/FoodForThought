@@ -3,6 +3,7 @@ package com.example.user.foodforthought;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -138,6 +139,11 @@ public class LoginActivity extends Activity {
             }
         });
 
+        /* Set custom font on button - doesn't work on XML button
+        Typeface helvetica = Typeface.createFromAsset(getApplicationContext().getAssets(), "HelveticaInseratLTStd-Roman.otf");
+        Button loginLinkedInButton = (Button) findViewById(R.id.login_li_button);
+        loginLinkedInButton.setTypeface(helvetica);
+        */
 
         Button liForgetButton = (Button) findViewById(R.id.logout_li_button);
         liForgetButton.setOnClickListener(new View.OnClickListener() {
