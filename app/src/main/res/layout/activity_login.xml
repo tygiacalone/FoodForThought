@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:text="Logout"
             android:id="@+id/logout_li_button"
-            android:layout_gravity="left|center_vertical" />
+            android:layout_gravity="left|center_vertical"
+            android:onClick="logoutButtonClickHandler" />
 
         <TextView
             android:id="@+id/at"
