@@ -56,7 +56,8 @@
                 android:layout_gravity="left|center_vertical"
                 android:layout_alignTop="@+id/button"
                 android:layout_alignRight="@+id/imageView"
-                android:layout_alignEnd="@+id/imageView" />
+                android:layout_alignEnd="@+id/imageView"
+                android:onClick="yesMatchClickHandler" />
 
         </RelativeLayout>
 
