@@ -1,6 +1,8 @@
 package com.example.user.foodforthought;
 
+
 import android.app.Activity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,52 +10,51 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-/**
- * Created by Ty Giacalone on 3/6/2015.
- */
-/*
-public class MessageAdapter extends BaseAdapter {
+import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MessageAdapter extends BaseAdapter
+{
 
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
 
-    private List<Pair<WritableMessage, Integer>> messages;
+    ArrayList<Pair<String, Integer>> messageList;
     private LayoutInflater layoutInflater;
 
     public MessageAdapter(Activity activity) {
         layoutInflater = activity.getLayoutInflater();
-        messages = new ArrayList<Pair<WritableMessage, Integer>>();
+        messageList = new ArrayList<Pair<String, Integer>>();
     }
-    public void addMessage(WritableMessage message, int direction) {
-        messages.add(new Pair(message, direction));
-        notifyDataSetChanged();
+    public void addMessage(String message, int direction) {
+        messageList.add(new Pair(message, direction));
+
+        for( Pair<String, Integer> oneMessage : messageList)
+            Log.d("Text value: " + oneMessage.second, oneMessage.first);
     }
 
     @Override
     public int getCount() {
-        return messages.size();
+        return messageList.size();
     }
-
     @Override
     public Object getItem(int i) {
-        return messages.get(i);
+        return messageList.get(i);
     }
-
     @Override
     public long getItemId(int i) {
         return i;
     }
-
     @Override
     public int getViewTypeCount() {
         return 2;
     }
-
     @Override
     public int getItemViewType(int i) {
-        return messages.get(i).second;
+        return messageList.get(i).second;
     }
-
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         int direction = getItemViewType(i);
@@ -62,18 +63,19 @@ public class MessageAdapter extends BaseAdapter {
         if (convertView == null) {
             int res = 0;
             if (direction == DIRECTION_INCOMING) {
-                res = R.layout.message_right;
+                res = R.layout.simple_text_right;
             } else if (direction == DIRECTION_OUTGOING) {
-                res = R.layout.message_left;
+                res = R.layout.simple_text_left;
             }
             convertView = layoutInflater.inflate(res, viewGroup, false);
         }
+        String message = messageList.get(i).first;
 
-        WritableMessage message = messages.get(i).first;
-        TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
-        txtMessage.setText(message.getTextBody());
-
+        TextView txtMessage = (TextView) convertView.findViewById(R.id.textMessage);
+        Log.d("The message is: ", message);
+        txtMessage.setText(message);
         return convertView;
+
     }
+
 }
-*/
