@@ -32,6 +32,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
     private EditText messageText; // Hold text from text field messageText
     private String recipientId;
     private String userId;
+    private Integer messageCount;
     ListView messagesList;
     MessageAdapter messageAdapter;
     ParseUser currentUser = ParseUser.getCurrentUser();
@@ -48,6 +49,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
         messagesList = (ListView) findViewById(R.id.messageList);
         messageAdapter = new MessageAdapter(this);
         messagesList.setAdapter(messageAdapter);
+        messageCount = 0;
 
         // Hides action bar
         setupActionBar();
@@ -62,7 +64,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
             public void run(){
                 redrawMessageList(user);
             }
-        },0, 10000); //10000ms == update every 10 seconds
+        },0, 1000); //10000ms == update every 1 second(s)
     }
 
     //Arg = user's ID
@@ -81,22 +83,24 @@ public class ChatApplicationActivity extends ActionBarActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> messageList, ParseException e) {
                 if (e == null) {
-                    // Draw the messages sequentially from top by LIFO
+                    // Only update the screen if the number of messages changes.
+                    if (messageList.size() != messageCount) {
+                        messageCount = messageList.size();
+                        messageAdapter.messageList.clear();
 
-                    messageAdapter.messageList.clear();
+                        if (messageList.size() > 252)
+                            for (int i = 0; i <= (messageList.size() - 250); i++)
+                                messageList.get(i).deleteInBackground();
 
-                    if (messageList.size() > 250)
-                        for( int i = 0; i <= (messageList.size() - 250); i++ )
-                            messageList.get(i).deleteInBackground();
+                        // Draw the messages sequentially from top by LIFO
+                        for (ParseObject singleMessage : messageList) {
+                            int sentByMe = 0;
+                            if (singleMessage.get("sender").toString().equals(user.getUsername()))
+                                sentByMe = 1;
 
-                    for( ParseObject singleMessage : messageList)
-                    {
-                        int sentByMe = 0;
-                        if (singleMessage.get("sender").toString().equals(user.getUsername()))
-                            sentByMe = 1;
-
-                        String textBody = singleMessage.get("text").toString();
-                        messageAdapter.addMessage(textBody, sentByMe);
+                            String textBody = singleMessage.get("text").toString();
+                            messageAdapter.addMessage(textBody, sentByMe);
+                        }
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),
