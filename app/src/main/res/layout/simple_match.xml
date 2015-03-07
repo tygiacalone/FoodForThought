@@ -10,11 +10,16 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:padding="12dp"
             android:background="#ff8de8ff"
-            >
+            android:padding="4dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView4"
+                android:background="@drawable/sample_picture" />
 
             <TextView
                 android:id="@+id/matchName"
@@ -25,7 +30,7 @@
                 android:textColor="#ff000000"
                 android:textSize="14sp"
                 android:text="Test Name"
-                />
+                android:paddingTop="8dp" />
 
         </RelativeLayout>
     </RelativeLayout>
