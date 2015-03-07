@@ -53,21 +53,27 @@ public class MainActivity extends ActionBarActivity {
         final ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
-        query.whereEqualTo("recipient", "John Doe");
+        query.whereEqualTo("recipient", "Login Man");
         query.whereEqualTo("sender", currentUser.getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> recipientList, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(getApplicationContext(),
-                            "Already swiped this user!",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    // If never seen before, add to DB
-                    ParseObject swipe = new ParseObject("swipe");
-                    swipe.put("recipient", "John Doe");
-                    swipe.put("sender", currentUser.getUsername());
+                    if (recipientList.size() == 0){
+                        // If never seen before, add to DB
+                        ParseObject swipe = new ParseObject("swipe");
+                        swipe.put("recipient", "Login Man");
+                        swipe.put("sender", currentUser.getUsername());
 
-                    swipe.saveInBackground();
+                        swipe.saveInBackground();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(),
+                                "Already swiped this user!",
+                                Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error swiping user: " + e.toString(),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

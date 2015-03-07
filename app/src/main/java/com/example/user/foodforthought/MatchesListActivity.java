@@ -43,9 +43,7 @@ public class MatchesListActivity extends ActionBarActivity {
         // Hides action bar
         setupActionBar();
 
-        final ParseUser user = currentUser;
-
-        redrawMatchesList(user);
+        redrawMatchesList(currentUser);
 /*
         redrawTimer = new Timer();
         redrawTimer.schedule(new TimerTask() {
@@ -57,17 +55,11 @@ public class MatchesListActivity extends ActionBarActivity {
 */
     }
 
-    protected void onResume(Bundle savedInstanceState){
-
-
-    }
-
-
     public void redrawMatchesList(ParseUser currentUser){
         /** Go through the message list and refresh the messages presented on screen. */
 
         final ParseUser user = currentUser;
-        String[] userIds = {currentUser.getUsername(), "John Doe"};
+        String[] userIds = {currentUser.getUsername(), "Login Man"};
 
         // Build list of messages sent between the currentUser and recipient
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");

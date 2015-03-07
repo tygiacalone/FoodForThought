@@ -70,7 +70,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
         /** Go through the message list and refresh the messages presented on screen. */
 
         final ParseUser user = currentUser;
-        String[] userIds = {currentUser.getUsername(), "John Doe"};
+        String[] userIds = {currentUser.getUsername(), "Login Man"};
 
         // Build list of messages sent between the currentUser and recipient
         ParseQuery<ParseObject> query = ParseQuery.getQuery("message");
@@ -115,7 +115,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
         /** Save message on user and recipient's message list */
         ParseObject message = new ParseObject("message");
         message.put("text", messageText.getText().toString());
-        message.put("recipient", "John Doe");
+        message.put("recipient", "Login Man");
         message.put("sender", currentUser.getUsername());
 
         message.saveInBackground();
