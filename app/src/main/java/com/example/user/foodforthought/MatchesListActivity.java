@@ -63,12 +63,19 @@ public class MatchesListActivity extends ActionBarActivity {
 
         // Build list of messages sent between the currentUser and recipient
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
+        query.setLimit(900);
         query.whereContainedIn("recipient", Arrays.asList(userIds));
         query.whereContainedIn("sender", Arrays.asList(userIds)); // Replace with recipient username
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> messageList, ParseException e) {
                 if (e == null) {
+
+                    // Unlikely anyone will ever have this many matches!
+                    if (messageList.size() > 850)
+                        for( int i = 0; i <= (messageList.size() - 850); i++ )
+                            messageList.get(i).deleteInBackground();
+
                     // Draw the messages sequentially from top by LIFO
                     matchesAdapter.matchList.clear();
                     for( ParseObject singleMessage : messageList)
