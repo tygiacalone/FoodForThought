@@ -15,13 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:id="@+id/matchesList"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:scrollingCache="false"
-        android:smoothScrollbar="false"
-        android:stackFromBottom="false"
-        android:transitionGroup="false">
+        android:id="@+id/matchesList">
     </ListView>
 
 </LinearLayout>
