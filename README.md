@@ -2,8 +2,8 @@ Food For Thought
 =============
 
 Are you:
-0. A first or second year student with way too many dining hall swipes? 
-0. A third, fourth year, or grad student with dining hall cravings?
+* A first or second year student with way too many dining hall swipes? 
+* A third, fourth year, or grad student with dining hall cravings?
 
 Food For Thought facilitates mentor-mentee relationships by allowing underclassmen and upperclassmen to connect over a meal! 
 
