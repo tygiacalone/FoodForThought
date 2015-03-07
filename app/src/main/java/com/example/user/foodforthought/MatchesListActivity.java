@@ -70,6 +70,7 @@ public class MatchesListActivity extends ActionBarActivity {
             public void done(List<ParseObject> messageList, ParseException e) {
                 if (e == null) {
                     // Draw the messages sequentially from top by LIFO
+                    matchesAdapter.matchList.clear();
                     for( ParseObject singleMessage : messageList)
                     {
                         String textBody = singleMessage.get("sender").toString();
@@ -87,7 +88,13 @@ public class MatchesListActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
 
+        // Refresh list
+        redrawMatchesList(currentUser);
+    }
 
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.

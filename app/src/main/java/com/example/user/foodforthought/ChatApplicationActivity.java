@@ -74,6 +74,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
 
         // Build list of messages sent between the currentUser and recipient
         ParseQuery<ParseObject> query = ParseQuery.getQuery("message");
+        query.setLimit(300);
         query.whereContainedIn("recipient", Arrays.asList(userIds));
         query.whereContainedIn("sender", Arrays.asList(userIds)); // Replace with recipient username
         query.orderByAscending("createdAt");
@@ -81,6 +82,13 @@ public class ChatApplicationActivity extends ActionBarActivity {
             public void done(List<ParseObject> messageList, ParseException e) {
                 if (e == null) {
                     // Draw the messages sequentially from top by LIFO
+
+                    messageAdapter.messageList.clear();
+
+                    if (messageList.size() > 250)
+                        for( int i = 0; i <= (messageList.size() - 250); i++ )
+                            messageList.get(i).deleteInBackground();
+
                     for( ParseObject singleMessage : messageList)
                     {
                         int sentByMe = 0;
@@ -120,11 +128,18 @@ public class ChatApplicationActivity extends ActionBarActivity {
 
         message.saveInBackground();
 
-
         /** Update list of messages immediately when send is pressed */
         redrawMessageList(currentUser);
 
         messageText.setText("");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Refresh list
+        redrawMessageList(currentUser);
     }
 
     /**
