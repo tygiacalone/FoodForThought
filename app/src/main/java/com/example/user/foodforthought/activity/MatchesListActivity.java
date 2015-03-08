@@ -1,4 +1,4 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -6,10 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user.foodforthought.adapter.MatchesListAdapter;
+import com.example.user.foodforthought.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -20,7 +21,6 @@ import com.parse.ParseUser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MatchesListActivity extends ActionBarActivity {
@@ -77,7 +77,7 @@ public class MatchesListActivity extends ActionBarActivity {
                             messageList.get(i).deleteInBackground();
 
                     // Draw the messages sequentially from top by LIFO
-                    matchesAdapter.matchList.clear();
+                    matchesAdapter.clearList();
                     for( ParseObject singleMessage : messageList)
                     {
                         String textBody = singleMessage.get("sender").toString();

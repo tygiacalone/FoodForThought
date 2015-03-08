@@ -1,10 +1,12 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.activity;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.user.foodforthought.R;
 
 
 public class LauncherActivity extends ActionBarActivity {

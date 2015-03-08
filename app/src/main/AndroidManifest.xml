@@ -11,34 +11,34 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".FullProfileActivity"
+            android:name=".activity.FullProfileActivity"
             android:label="@string/title_activity_full_profile"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/FullscreenTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.foodforthought.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".DebugDirectoryActivity"
+            android:name=".activity.DebugDirectoryActivity"
             android:label="@string/title_activity_debug_directory" >
         </activity>
         <activity
-            android:name=".LauncherActivity"
-            android:icon="@drawable/ic_launcher_cup"
+            android:name=".activity.LauncherActivity"
+            android:icon="@drawable/ic_launcher_cup_inverse"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,20 +47,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ChatApplicationActivity"
+            android:name=".activity.ChatApplicationActivity"
             android:label="@string/title_activity_chat_application"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.foodforthought.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".MatchesListActivity"
+            android:name=".activity.MatchesListActivity"
             android:label="@string/title_activity_matches_list"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.foodforthought.MainActivity" />
+                android:value=".activity.MainActivity" />
         </activity>
     </application>
 

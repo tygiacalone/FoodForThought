@@ -1,4 +1,4 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.adapter;
 
 import android.app.Activity;
 import android.media.Image;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.user.foodforthought.R;
+
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  */
 public class MatchesListAdapter extends BaseAdapter {
 
-    ArrayList<Pair<String, Integer>> matchList;
+    private ArrayList<Pair<String, Integer>> matchList;
     private LayoutInflater layoutInflater;
 
     public MatchesListAdapter(Activity activity) {
@@ -28,6 +30,15 @@ public class MatchesListAdapter extends BaseAdapter {
     public void addMessage(String name, int direction) {
         matchList.add(new Pair(name, direction));
         notifyDataSetChanged();
+    }
+
+    public boolean clearList(){
+        matchList.clear();
+
+        if (matchList.size() == 0)
+            return true;
+        else
+            return false;
     }
 
     @Override

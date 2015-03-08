@@ -1,12 +1,9 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.user.foodforthought.adapter.MessageAdapter;
+import com.example.user.foodforthought.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -86,9 +85,9 @@ public class ChatApplicationActivity extends ActionBarActivity {
                     // Only update the screen if the number of messages changes.
                     if (messageList.size() != messageCount) {
                         messageCount = messageList.size();
-                        messageAdapter.messageList.clear();
+                        messageAdapter.clearList();
 
-                        if (messageList.size() > 252)
+                        if (messageList.size() > 250)
                             for (int i = 0; i <= (messageList.size() - 250); i++)
                                 messageList.get(i).deleteInBackground();
 

@@ -1,4 +1,4 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.adapter;
 
 
 import android.app.Activity;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.user.foodforthought.R;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class MessageAdapter extends BaseAdapter
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
 
-    ArrayList<Pair<String, Integer>> messageList;
+    private ArrayList<Pair<String, Integer>> messageList;
     private LayoutInflater layoutInflater;
 
     public MessageAdapter(Activity activity) {
@@ -31,6 +32,15 @@ public class MessageAdapter extends BaseAdapter
     public void addMessage(String message, int direction) {
         messageList.add(new Pair(message, direction));
         notifyDataSetChanged();
+    }
+
+    public boolean clearList(){
+        messageList.clear();
+
+        if (messageList.size() == 0)
+            return true;
+        else
+            return false;
     }
 
     @Override

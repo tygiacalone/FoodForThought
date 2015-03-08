@@ -1,4 +1,4 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.user.foodforthought.R;
 
 
 public class DebugDirectoryActivity extends ActionBarActivity {

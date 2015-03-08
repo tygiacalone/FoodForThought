@@ -1,18 +1,16 @@
-package com.example.user.foodforthought;
+package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+
+import com.example.user.foodforthought.adapter.ListViewAdapter;
+import com.example.user.foodforthought.R;
 import com.parse.*;
 import android.widget.ListView;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class FullProfileActivity extends ActionBarActivity {
