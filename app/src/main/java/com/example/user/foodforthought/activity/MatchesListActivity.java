@@ -70,17 +70,24 @@ public class MatchesListActivity extends ActionBarActivity {
 */
     }
 
+    // Go through the message list and refresh the messages presented on screen.
     public void redrawMatchesList(ParseUser currentUser){
-        /** Go through the message list and refresh the messages presented on screen. */
 
-        final ParseUser user = currentUser;
-        String[] userIds = {currentUser.getUsername(), "Login Man"};
-
+        // All who have swiped the current user right
         // Build list of messages sent between the currentUser and recipient
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
-        query.setLimit(900);
-        query.whereContainedIn("recipient", Arrays.asList(userIds));
-        query.whereContainedIn("sender", Arrays.asList(userIds));
+        ParseQuery<ParseObject> swipedUser = ParseQuery.getQuery("swipe");
+        swipedUser.whereEqualTo("recipient", currentUser.getUsername());
+        swipedUser.setLimit(900);
+
+        // All swiped right by current user
+        ParseQuery<ParseObject> swipedByUser = ParseQuery.getQuery("swipe");
+        swipedByUser.whereEqualTo("sender", currentUser.getUsername());
+        swipedByUser.setLimit(900);
+
+        // We want the set of users which share usernames between the two different sets. Aka, recipient and sender are the same
+        ParseQuery<ParseObject> query = swipedUser.whereMatchesKeyInQuery("sender", "recipient", swipedByUser);
+        query.whereMatchesKeyInQuery("recipient","sender", swipedByUser);
+
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> messageList, ParseException e) {
@@ -99,7 +106,7 @@ public class MatchesListActivity extends ActionBarActivity {
                         ParseObject singleMessage = messageList.get(pos);
                         String name = singleMessage.get("sender").toString();
                         int sentByMe = 0;
-                        if (singleMessage.get("recipient").toString().equals(user.getUsername()))
+                        //if (singleMessage.get("recipient").toString().equals(user.getUsername()))
                             matchesAdapter.addMatch(name, pos);
                     }
                 } else {
