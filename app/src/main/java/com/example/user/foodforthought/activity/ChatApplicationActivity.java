@@ -1,6 +1,7 @@
 package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.foodforthought.adapter.MessageAdapter;
@@ -45,10 +47,16 @@ public class ChatApplicationActivity extends ActionBarActivity {
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
         ParseUser currentUser = ParseUser.getCurrentUser();
 
+        Intent intent = getIntent();
+        recipientId = intent.getStringExtra("RECIPIENT_ID");
+
         messagesList = (ListView) findViewById(R.id.messageList);
         messageAdapter = new MessageAdapter(this);
         messagesList.setAdapter(messageAdapter);
         messageCount = 0;
+
+        TextView banner = (TextView) findViewById(R.id.mychatActivityBannerText);
+        banner.setText(recipientId);
 
         // Hides action bar
         setupActionBar();
@@ -71,7 +79,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
         /** Go through the message list and refresh the messages presented on screen. */
 
         final ParseUser user = currentUser;
-        String[] userIds = {currentUser.getUsername(), "Login Man"};
+        String[] userIds = {currentUser.getUsername(), recipientId};
 
         // Build list of messages sent between the currentUser and recipient
         ParseQuery<ParseObject> query = ParseQuery.getQuery("message");
@@ -126,7 +134,7 @@ public class ChatApplicationActivity extends ActionBarActivity {
         /** Save message on user and recipient's message list */
         ParseObject message = new ParseObject("message");
         message.put("text", messageText.getText().toString());
-        message.put("recipient", "Login Man");
+        message.put("recipient", recipientId);
         message.put("sender", currentUser.getUsername());
 
         message.saveInBackground();

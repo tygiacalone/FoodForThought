@@ -1,6 +1,7 @@
 package com.example.user.foodforthought.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.util.Log;
 import android.util.Pair;
@@ -9,25 +10,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.foodforthought.R;
+import com.example.user.foodforthought.activity.ChatApplicationActivity;
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ty Giacalone on 3/6/2015.
  */
 public class MatchesListAdapter extends BaseAdapter {
 
-    private ArrayList<Pair<String, Integer>> matchList;
+    public ArrayList<Pair<String, Integer>> matchList; // <name, pos>
     private LayoutInflater layoutInflater;
 
     public MatchesListAdapter(Activity activity) {
         layoutInflater = activity.getLayoutInflater();
         matchList = new ArrayList<Pair<String, Integer>>();
     }
-    public void addMessage(String name, int direction) {
+    public void addMatch(String name, int direction) {
         matchList.add(new Pair(name, direction));
         notifyDataSetChanged();
     }
@@ -46,7 +53,7 @@ public class MatchesListAdapter extends BaseAdapter {
         return matchList.size();
     }
     @Override
-    public Object getItem(int i) {
+    public Pair<String, Integer> getItem(int i) {
         return matchList.get(i);
     }
     @Override
@@ -73,6 +80,7 @@ public class MatchesListAdapter extends BaseAdapter {
         Log.d("The name is: ", name);
         Log.d("The direction is: ", "" + direction);
         txtName.setText(name);
+
         return convertView;
 
     }

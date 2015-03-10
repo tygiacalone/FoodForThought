@@ -48,7 +48,7 @@ public class MessageAdapter extends BaseAdapter
         return messageList.size();
     }
     @Override
-    public Object getItem(int i) {
+    public Pair<String, Integer> getItem(int i) {
         return messageList.get(i);
     }
     @Override

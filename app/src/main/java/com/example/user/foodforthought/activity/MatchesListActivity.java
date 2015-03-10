@@ -1,11 +1,15 @@
 package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
@@ -28,6 +33,7 @@ public class MatchesListActivity extends ActionBarActivity {
     MatchesListAdapter matchesAdapter;
     ParseUser currentUser = ParseUser.getCurrentUser();
     Timer redrawTimer;
+    ArrayList<String> names;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +42,18 @@ public class MatchesListActivity extends ActionBarActivity {
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
+        names = new ArrayList<String>();
+
         matchesList = (ListView) findViewById(R.id.matchesList);
         matchesAdapter = new MatchesListAdapter(this);
         matchesList.setAdapter(matchesAdapter);
+
+        matchesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long l) {
+                openConversation(matchesAdapter.getItem(position));
+            }
+        });
 
         // Hides action bar
         setupActionBar();
@@ -65,7 +80,7 @@ public class MatchesListActivity extends ActionBarActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
         query.setLimit(900);
         query.whereContainedIn("recipient", Arrays.asList(userIds));
-        query.whereContainedIn("sender", Arrays.asList(userIds)); // Replace with recipient username
+        query.whereContainedIn("sender", Arrays.asList(userIds));
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> messageList, ParseException e) {
@@ -78,18 +93,39 @@ public class MatchesListActivity extends ActionBarActivity {
 
                     // Draw the messages sequentially from top by LIFO
                     matchesAdapter.clearList();
-                    for( ParseObject singleMessage : messageList)
+                    for( int i = 0; i < messageList.size(); i++)
                     {
-                        String textBody = singleMessage.get("sender").toString();
+                        int pos = i;
+                        ParseObject singleMessage = messageList.get(pos);
+                        String name = singleMessage.get("sender").toString();
                         int sentByMe = 0;
                         if (singleMessage.get("recipient").toString().equals(user.getUsername()))
-                            matchesAdapter.addMessage(textBody, sentByMe);
-
+                            matchesAdapter.addMatch(name, pos);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Error retrieving message list.",
                             Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+    public void openConversation(Pair<String,Integer> match){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", match.first);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> userList, com.parse.ParseException e) {
+                if (e == null) {
+                    for( ParseUser user : userList) { //userList should only ever be length == 1
+                        String uniqueId = user.getUsername(); /** Replace with unique (LinkedIn) ID */
+                        Intent intent = new Intent(getApplicationContext(), ChatApplicationActivity.class);
+                        intent.putExtra("RECIPIENT_ID", uniqueId);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error finding that user",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
