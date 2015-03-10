@@ -8,14 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.user.foodforthought.R;
-import com.parse.FindCallback;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.List;
 
 
 public class DebugDirectoryActivity extends ActionBarActivity {
@@ -52,24 +46,8 @@ public class DebugDirectoryActivity extends ActionBarActivity {
 
 
     public void goToChatOnClickListener(View view){
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", "Login Man");
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> userList, com.parse.ParseException e) {
-                if (e == null) {
-                    for( ParseUser user : userList) { //userList should only ever be length == 1
-                        String uniqueId = user.getUsername(); /** Replace with unique (LinkedIn) ID */
-                        Intent intent = new Intent(getApplicationContext(), ChatApplicationActivity.class);
-                        intent.putExtra("RECIPIENT_ID", uniqueId);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Error finding that user",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        Intent intent = new Intent(this, MatchesListActivity.class);
+        startActivity(intent);
     }
 
     @Override
