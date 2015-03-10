@@ -11,6 +11,7 @@ import com.example.user.foodforthought.R;
 import com.parse.*;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class FullProfileActivity extends ActionBarActivity {
@@ -18,10 +19,11 @@ public class FullProfileActivity extends ActionBarActivity {
     private ArrayList<String> profileItems;
     private ListView profileListView;
     private ListViewAdapter profileListViewAdapter;
-    private String companyNames[] = {"eBay", "Facebook", "Google"};
-    private String companyJobs[] = {"intern1", "intern2", "intern3"};
-    private String companyDates[] = {"2012-2013", "2013-2014", "2014-2015"};
-    private String companyInfo[] = {"a b c d", "i j k l", "w x y z"};
+    ArrayList<String> companyNames = new ArrayList<>(Arrays.asList("eBay", "Facebook", "Google"));
+    ArrayList<String> companyTitles = new ArrayList<>(Arrays.asList("intern1", "intern2", "intern3"));
+    ArrayList<String> companyDates = new ArrayList<>(Arrays.asList("2012-2013", "2013-2014", "2014-2015"));
+    ArrayList<String> companyExperience = new ArrayList<>(Arrays.asList("a b c d", "i j k l", "w x y z"));
+
 
 
     @Override
@@ -39,7 +41,7 @@ public class FullProfileActivity extends ActionBarActivity {
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
         profileListViewAdapter = new ListViewAdapter(this, companyNames,
-                companyJobs, companyDates, companyInfo);
+                companyTitles, companyDates, companyExperience);
 
         // Set the ListView Adapter
         profileListView.setAdapter(profileListViewAdapter);

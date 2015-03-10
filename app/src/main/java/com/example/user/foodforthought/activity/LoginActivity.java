@@ -3,6 +3,11 @@ package com.example.user.foodforthought.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +15,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +29,8 @@ import com.linkedin.platform.listeners.ApiResponse;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -32,7 +40,7 @@ import com.linkedin.platform.errors.LIAuthError;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 
-
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -71,6 +79,7 @@ public class LoginActivity extends Activity {
      */
     private SystemUiHider mSystemUiHider;
     private static final String request = "https://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)";
+    Activity thisActivity;
 
 
     @Override
@@ -85,7 +94,7 @@ public class LoginActivity extends Activity {
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
-        final Activity thisActivity = this;
+        thisActivity = this;
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -178,7 +187,7 @@ public class LoginActivity extends Activity {
          * For Samuel and Antonio to fill out
          * @param view
          */
-        final Activity thisActivity = this;
+
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -224,6 +233,23 @@ public class LoginActivity extends Activity {
         // other fields can be set just like with ParseObject
         user.put("phone", "911");
 
+        /*
+        Resources res = getResources();
+
+        Drawable drawable = res.getDrawable(R.drawable.test);
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] data = stream.toByteArray();
+
+        ParseFile file = new ParseFile("picture.txt", data);
+        file.saveInBackground();
+
+        ParseObject userPicture = new ParseObject("UserPicture");
+        userPicture.put("mediatype", "image");
+        userPicture.put("mediaurl", file);
+        userPicture.saveInBackground();
+
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -237,6 +263,7 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+        */
 
         // Login with Parse
         /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I mean) */

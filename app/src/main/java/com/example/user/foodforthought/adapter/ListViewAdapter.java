@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.user.foodforthought.R;
 
+import java.util.ArrayList;
+
 public class ListViewAdapter extends BaseAdapter
 {
     Activity context;
@@ -18,14 +20,21 @@ public class ListViewAdapter extends BaseAdapter
     String dates[];
     String info[];
 
-    public ListViewAdapter(Activity context, String[] title, String[] description,
-                           String[] dates, String[] info) {
+    public ListViewAdapter(Activity context, ArrayList<String> title, ArrayList<String> description,
+                           ArrayList<String> dates, ArrayList<String> info) {
         super();
         this.context = context;
-        this.title = title;
-        this.description = description;
-        this.dates = dates;
-        this.info = info;
+        this.title = new String[title.size()];
+        this.title = title.toArray(this.title);
+
+        this.description = new String[description.size()];
+        this.description = description.toArray(this.description);
+
+        this.dates = new String[dates.size()];
+        this.dates = dates.toArray(this.dates);
+
+        this.info = new String[info.size()];
+        this.info = info.toArray(this.info);
     }
 
     public int getCount() {
