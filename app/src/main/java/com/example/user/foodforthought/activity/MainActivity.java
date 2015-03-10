@@ -26,7 +26,6 @@ public class MainActivity extends ActionBarActivity {
 
     Queue<String> userQueue = new LinkedList<String>();
     ParseUser currentUser;
-    String currentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,8 @@ public class MainActivity extends ActionBarActivity {
     public void clickMainProfileHandler(View view)
     {
         Intent intent = new Intent(this, FullProfileActivity.class);
-        intent.putExtra("ID", "blah");
+        String temp = getParseID(userQueue.peek());
+        intent.putExtra("ID", temp);
         startActivity(intent);
     }
 
@@ -181,18 +181,18 @@ public class MainActivity extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
 
         else {
-            String username = userQueue.peek();
+            String parseID = getParseID(userQueue.peek());
 
-            // Find the profile of the user being shown
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username", username);
-            try {
-                String objectID = query.getFirst().getString("imageID");
-                System.out.println(objectID);
-                retrieveImage(objectID);
-            } catch (Exception e) {
-                // Profile doesn't exist
+            if (parseID.equals("")) {
+                // Unknown username
             }
+            else {
+                // Find the profile of the user being shown
+                retrieveImage(parseID);
+            }
+
+            // Update the userQueue if there's no more items in it
+            updateUserStack();
         }
 
         userQueue.remove();
@@ -201,6 +201,16 @@ public class MainActivity extends ActionBarActivity {
             findViewById(R.id.button).setVisibility(View.GONE);
             findViewById(R.id.button2).setVisibility(View.GONE);
             findViewById(R.id.nomatches).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private String getParseID (String username) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", username);
+        try {
+            return query.getFirst().getObjectId();
+        } catch (Exception e) {
+            return "";
         }
     }
 

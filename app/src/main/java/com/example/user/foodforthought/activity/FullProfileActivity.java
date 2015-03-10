@@ -1,6 +1,7 @@
 package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class FullProfileActivity extends ActionBarActivity {
     private ArrayList<String> profileItems;
     private ListView profileListView;
     private ListViewAdapter profileListViewAdapter;
+    private String parseID;
     ArrayList<String> companyNames = new ArrayList<>(Arrays.asList("eBay", "Facebook", "Google"));
     ArrayList<String> companyTitles = new ArrayList<>(Arrays.asList("intern1", "intern2", "intern3"));
     ArrayList<String> companyDates = new ArrayList<>(Arrays.asList("2012-2013", "2013-2014", "2014-2015"));
@@ -38,6 +40,11 @@ public class FullProfileActivity extends ActionBarActivity {
         // Hides action bar
         setupActionBar();
 
+        // Gets the Parse object ID so we know where to pull from
+        Intent intent = getIntent();
+        parseID = intent.getStringExtra("ID");
+        System.out.println(parseID);
+
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
         profileListViewAdapter = new ListViewAdapter(this, companyNames,
@@ -45,21 +52,6 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Set the ListView Adapter
         profileListView.setAdapter(profileListViewAdapter);
-
-/*
-        // Create the list of items to be put on the profile
-        // temp is a placeholder list
-        profileItems = new ArrayList<String>();
-        String[] temp = new String[] {user.getUsername(), user.getEmail()};
-
-        profileItems.addAll(Arrays.asList(temp));
-
-        // Add second profile
-        user = ParseUser.getCurrentUser();
-
-        // Add second profile info to list.
-        String[] temp2 = new String[] {user.getUsername(), user.getEmail()};
-        profileItems.addAll(Arrays.asList(temp2)); */
     }
 
 /*
