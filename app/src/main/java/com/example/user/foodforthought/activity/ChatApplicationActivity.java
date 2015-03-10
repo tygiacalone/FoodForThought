@@ -145,6 +145,13 @@ public class ChatApplicationActivity extends ActionBarActivity {
         messageText.setText("");
     }
 
+    public void chatBannerClickHandler(View view){
+        // Go to full profile of chat partner if click on banner.
+        Intent intent = new Intent(this, FullProfileActivity.class);
+        intent.putExtra("USER_ID", recipientId);
+        startActivity(intent);
+    }
+
     @Override
     public void onResume(){
         super.onResume();

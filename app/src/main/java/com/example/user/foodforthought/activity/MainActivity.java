@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.foodforthought.R;
@@ -26,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
     Queue<String> userQueue = new LinkedList<String>();
     ParseUser currentUser;
-    String currentProfile;
+    String currentlyViewedProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,14 @@ public class MainActivity extends ActionBarActivity {
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
         currentUser = ParseUser.getCurrentUser();
+
         setContentView(R.layout.activity_main);
 
         // Updates the user stack
         updateUserStack();
+
+        // Updates current card on the stack
+        updateCurrentProfile();
 
         // Hides action bar
         setupActionBar();
@@ -59,14 +64,14 @@ public class MainActivity extends ActionBarActivity {
     public void clickMainProfileHandler(View view)
     {
         Intent intent = new Intent(this, FullProfileActivity.class);
-        intent.putExtra("ID", "blah");
+        intent.putExtra("USER_ID", currentlyViewedProfile);
         startActivity(intent);
     }
 
     //Make a match
     public void yesMatchClickHandler(View view){
         final ParseUser currentUser = ParseUser.getCurrentUser();
-        final String viewedUser = userQueue.peek();
+        final String viewedUser = currentlyViewedProfile;
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
         query.whereEqualTo("recipient", viewedUser);
@@ -94,10 +99,12 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        userQueue.remove();
         updateCurrentProfile();
     }
 
     public void noMatchClickHandler(View view){
+        userQueue.remove();
         updateCurrentProfile();
     }
 
@@ -149,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         // We want the set of users which share usernames between the two different sets.
         // Aka, recipient and sender are the same
         ParseQuery<ParseUser> query = userList.whereDoesNotMatchKeyInQuery("username",
-                "sender", swipedByUser);
+                "recipient", swipedByUser);
 
         // TODO: order the queries by distance away from the user
         try {
@@ -158,9 +165,10 @@ public class MainActivity extends ActionBarActivity {
             // Put users in the queue sequentially
             for (int i = 0; i < matches.size(); i++) {
                 int pos = i;
-                ParseUser singleMessage = matches.get(pos);
-                String name = singleMessage.get("username").toString();
-                userQueue.add(name);
+                ParseUser singleUser = matches.get(pos);
+                String name = singleUser.get("username").toString();
+                if (!name.equals(currentUser.getUsername())) // Don't add yourself to the list.
+                    userQueue.add(name);
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -175,17 +183,20 @@ public class MainActivity extends ActionBarActivity {
 
     // Updates the profile being shown
     private void updateCurrentProfile() {
+        currentlyViewedProfile = userQueue.peek();
+
         if (userQueue.isEmpty())
             Toast.makeText(getApplicationContext(),
                     "No more users to match!",
                     Toast.LENGTH_LONG).show();
-
         else {
-            String username = userQueue.peek();
+
+            TextView matchName = (TextView) findViewById(R.id.matchName);
+            matchName.setText(currentlyViewedProfile); // TODO: Needs to be updated to actual name after username == LinkedIn ID
 
             // Find the profile of the user being shown
             ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username", username);
+            query.whereEqualTo("username", currentlyViewedProfile);
             try {
                 String objectID = query.getFirst().getString("imageID");
                 System.out.println(objectID);
@@ -195,11 +206,11 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        userQueue.remove();
         if (userQueue.isEmpty()) {
             findViewById(R.id.imageView).setVisibility(View.GONE);
             findViewById(R.id.button).setVisibility(View.GONE);
             findViewById(R.id.button2).setVisibility(View.GONE);
+            findViewById(R.id.matchName).setVisibility(View.GONE);
             findViewById(R.id.nomatches).setVisibility(View.VISIBLE);
         }
     }
@@ -234,5 +245,13 @@ public class MainActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(context, e.toString(), duration);
             toast.show();
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+         updateUserStack();
+         updateCurrentProfile();
     }
 }

@@ -61,24 +61,20 @@ public class MatchesListAdapter extends BaseAdapter {
         return i;
     }
     @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
+    public int getViewTypeCount() { return 1; } //How many types of viwes are there? (Just 1, a match)
     @Override
     public int getItemViewType(int i) {
-        return matchList.get(i).second;
+        return 1;
     }
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        int direction = getItemViewType(i);
 
         convertView = layoutInflater.inflate(R.layout.simple_match, viewGroup, false);
 
         String name = matchList.get(i).first;
 
-        TextView txtName = (TextView) convertView.findViewById(R.id.matchName);
+        TextView txtName = (TextView) convertView.findViewById(R.id.match_list_name);
         Log.d("The name is: ", name);
-        Log.d("The direction is: ", "" + direction);
         txtName.setText(name);
 
         return convertView;

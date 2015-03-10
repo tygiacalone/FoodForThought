@@ -84,8 +84,8 @@ public class MatchesListActivity extends ActionBarActivity {
         swipedByUser.setLimit(900);
 
         // We want the set of users which share usernames between the two different sets. Aka, recipient and sender are the same
-        ParseQuery<ParseObject> query = swipedUser.whereMatchesKeyInQuery("sender", "recipient", swipedByUser);
-        query.whereMatchesKeyInQuery("recipient","sender", swipedByUser);
+        ParseQuery<ParseObject> query = swipedByUser.whereMatchesKeyInQuery("recipient", "sender", swipedUser);
+        query.whereMatchesKeyInQuery("sender","recipient", swipedUser);
 
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -103,7 +103,7 @@ public class MatchesListActivity extends ActionBarActivity {
                     {
                         int pos = i;
                         ParseObject singleMessage = messageList.get(pos);
-                        String name = singleMessage.get("sender").toString();
+                        String name = singleMessage.get("recipient").toString();
                         //if (singleMessage.get("recipient").toString().equals(user.getUsername()))
                             matchesAdapter.addMatch(name, pos);
                     }

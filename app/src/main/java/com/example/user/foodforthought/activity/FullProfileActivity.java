@@ -1,6 +1,10 @@
 package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,7 +13,13 @@ import android.view.MenuItem;
 import com.example.user.foodforthought.adapter.ListViewAdapter;
 import com.example.user.foodforthought.R;
 import com.parse.*;
+
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,6 +29,7 @@ public class FullProfileActivity extends ActionBarActivity {
     private ArrayList<String> profileItems;
     private ListView profileListView;
     private ListViewAdapter profileListViewAdapter;
+    private String currentUser;
     ArrayList<String> companyNames = new ArrayList<>(Arrays.asList("eBay", "Facebook", "Google"));
     ArrayList<String> companyTitles = new ArrayList<>(Arrays.asList("intern1", "intern2", "intern3"));
     ArrayList<String> companyDates = new ArrayList<>(Arrays.asList("2012-2013", "2013-2014", "2014-2015"));
@@ -37,6 +48,16 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Hides action bar
         setupActionBar();
+
+        Intent intent = getIntent();
+        currentUser = intent.getStringExtra("USER_ID");
+
+        TextView fullProfileMatchName = (TextView) findViewById(R.id.fullProfileMatchName);
+        fullProfileMatchName.setText(currentUser);
+
+        retrieveImage(currentUser);
+
+        /** Query database for data pertaining to the currentUser to fill out the profile*/
 
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
@@ -83,6 +104,50 @@ public class FullProfileActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void retrieveImage(String name) {
+
+        String imageID;
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", name);
+        try {
+            String objectID = query.getFirst().getString("imageID");
+            System.out.println(objectID);
+            imageID = objectID;
+        } catch (Exception e) {
+            return;
+        }
+
+        ParseQuery<ParseObject> pictureQuery = ParseQuery.getQuery("UserPicture");
+        try {
+            ParseObject foundIMG = pictureQuery.get(imageID);
+
+            // Create a ParseFile to grab the image from the database
+            ParseFile applicantResume = (ParseFile)foundIMG.get("mediaurl");
+            applicantResume.getDataInBackground(new GetDataCallback() {
+                public void done(byte[] data, ParseException e) {
+                    // data has the bytes for the picture
+                    if (e == null) {
+                        // Replace the image in the imageView with the one in the database
+                        ImageView image = (ImageView) findViewById(R.id.imageView);
+                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        image.setImageBitmap(bMap);
+                    } else {
+                        // something went wrong
+                    }
+                }
+            });
+
+        } catch (ParseException e) {
+            // Message if failed
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, e.toString(), duration);
+            toast.show();
+        }
     }
 
     /**
