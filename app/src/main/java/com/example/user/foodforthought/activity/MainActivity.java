@@ -97,13 +97,16 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+        if(!userQueue.isEmpty())
+            userQueue.remove();
 
-        userQueue.remove();
         updateCurrentProfile();
     }
 
     public void noMatchClickHandler(View view){
-        userQueue.remove();
+
+        if(!userQueue.isEmpty())
+            userQueue.remove();
         updateCurrentProfile();
     }
 
@@ -251,7 +254,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
-
+         userQueue.clear();
          updateUserStack();
          updateCurrentProfile();
     }
