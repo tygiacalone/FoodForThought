@@ -35,7 +35,6 @@ public class MainActivity extends ActionBarActivity {
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
         currentUser = ParseUser.getCurrentUser();
-
         setContentView(R.layout.activity_main);
 
         // Updates the user stack
@@ -189,7 +188,9 @@ public class MainActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(),
                     "No more users to match!",
                     Toast.LENGTH_LONG).show();
+
         else {
+            String username = userQueue.peek();
 
             TextView matchName = (TextView) findViewById(R.id.matchName);
             matchName.setText(currentlyViewedProfile); // TODO: Needs to be updated to actual name after username == LinkedIn ID
@@ -206,6 +207,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
+        userQueue.remove();
         if (userQueue.isEmpty()) {
             findViewById(R.id.imageView).setVisibility(View.GONE);
             findViewById(R.id.button).setVisibility(View.GONE);

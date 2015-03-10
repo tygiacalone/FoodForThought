@@ -1,10 +1,6 @@
 package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
