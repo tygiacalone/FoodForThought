@@ -42,8 +42,6 @@ public class MatchesListActivity extends ActionBarActivity {
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
 
-        names = new ArrayList<String>();
-
         matchesList = (ListView) findViewById(R.id.matchesList);
         matchesAdapter = new MatchesListAdapter(this);
         matchesList.setAdapter(matchesAdapter);
@@ -58,6 +56,7 @@ public class MatchesListActivity extends ActionBarActivity {
         // Hides action bar
         setupActionBar();
 
+        // Create match list
         redrawMatchesList(currentUser);
 /*
         redrawTimer = new Timer();
@@ -105,7 +104,6 @@ public class MatchesListActivity extends ActionBarActivity {
                         int pos = i;
                         ParseObject singleMessage = messageList.get(pos);
                         String name = singleMessage.get("sender").toString();
-                        int sentByMe = 0;
                         //if (singleMessage.get("recipient").toString().equals(user.getUsername()))
                             matchesAdapter.addMatch(name, pos);
                     }
@@ -117,6 +115,7 @@ public class MatchesListActivity extends ActionBarActivity {
             }
         });
     }
+
     public void openConversation(Pair<String,Integer> match){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", match.first);
