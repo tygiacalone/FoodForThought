@@ -178,7 +178,7 @@ public class LoginActivity extends Activity {
          * For Samuel and Antonio to fill out
          * @param view
          */
-
+        final Activity thisActivity = this;
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -227,7 +227,9 @@ public class LoginActivity extends Activity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    // Hooray! Let them use the app now.
+                    //After finishing, go to MainActivity
+                    Intent intent = new Intent(thisActivity, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             e.toString(),
@@ -238,11 +240,11 @@ public class LoginActivity extends Activity {
 
         // Login with Parse
         /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I mean) */
-        final Activity thisActivity = this;       //This field, "54321"
+                                                   // field, "54321"
         ParseUser.logInInBackground(user.getUsername(), "54321", new LogInCallback() {
                     public void done(ParseUser user, com.parse.ParseException e) {
                         if (user != null) {
-                            //start sinch service
+
                             //After finishing, go to MainActivity
                             Intent intent = new Intent(thisActivity, MainActivity.class);
                             startActivity(intent);

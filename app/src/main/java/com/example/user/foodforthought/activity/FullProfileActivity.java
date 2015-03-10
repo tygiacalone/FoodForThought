@@ -28,37 +28,7 @@ public class FullProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
-
-        ParseUser user = new ParseUser();
-        user.setUsername("John Doe");
-        user.setPassword("12345");
-        user.setEmail("jdoe@example.com");
-
-        // other fields can be set just like with ParseObject
-        user.put("phone", "650-555-0000");
-
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Hooray! Let them use the app now.
-                } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
-                }
-            }
-        });
-
-        ParseUser.logInInBackground("John Doe", "12345", new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    // Hooray! The user is logged in.
-                } else {
-                    // Sign up failed. Look at the ParseException to see what happened.
-                }
-            }
-        });
 
         // Set layout file for Activity
         setContentView(R.layout.activity_full_profile);

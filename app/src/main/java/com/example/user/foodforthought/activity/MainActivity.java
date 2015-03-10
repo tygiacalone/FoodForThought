@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         final ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("swipe");
-        query.whereEqualTo("recipient", "Login Man");
+        query.whereEqualTo("recipient", "Login Man"); /** Need to update "Login Man" recipient to the current ID of the profile being displayed */
         query.whereEqualTo("sender", currentUser.getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> recipientList, ParseException e) {
@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
                     if (recipientList.size() == 0){
                         // If never seen before, add to DB
                         ParseObject swipe = new ParseObject("swipe");
-                        swipe.put("recipient", "Login Man");
+                        swipe.put("recipient", "Login Man"); /** Need to update "Login Man" recipient to the current ID of the profile being displayed */
                         swipe.put("sender", currentUser.getUsername());
 
                         swipe.saveInBackground();
