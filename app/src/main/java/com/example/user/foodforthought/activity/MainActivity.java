@@ -207,7 +207,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        userQueue.remove();
         if (userQueue.isEmpty()) {
             findViewById(R.id.imageView).setVisibility(View.GONE);
             findViewById(R.id.button).setVisibility(View.GONE);
