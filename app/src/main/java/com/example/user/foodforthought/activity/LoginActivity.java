@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.user.foodforthought.R;
 import com.example.user.foodforthought.util.SystemUiHider;
 import com.linkedin.platform.APIHelper;
@@ -41,6 +40,9 @@ import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 
 import java.io.ByteArrayOutputStream;
+
+import org.json.JSONObject;
+import org.json.JSONException;
 
 
 /**
@@ -78,7 +80,7 @@ public class LoginActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
-    private static final String request = "https://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)";
+    private static final String request = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address)";
     Activity thisActivity;
 
 
@@ -150,7 +152,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        /*
+
         // Check if already been logged in
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -158,7 +160,7 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(thisActivity, MainActivity.class);
             startActivity(intent);
         }
-        */
+
 
         /* Set custom font on button - doesn't work on XML button
         Typeface helvetica = Typeface.createFromAsset(getApplicationContext().getAssets(), "HelveticaInseratLTStd-Roman.otf");
@@ -192,6 +194,7 @@ public class LoginActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
+        final ParseUser user = new ParseUser();
 
         LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
             @Override
@@ -201,8 +204,49 @@ public class LoginActivity extends Activity {
                 apiHelper.getRequest(LoginActivity.this, request, new ApiListener() {
                     @Override
                     public void onApiSuccess(ApiResponse apiResponse) {
-                        ((TextView) findViewById(R.id.at)).setText(apiResponse.toString());
-                    }
+                        try{
+                            JSONObject profile = apiResponse.getResponseDataAsJson();
+
+                            String userId = profile.has("id")?profile.getString("id"):"dummy";
+                            String emailAddress = profile.has("emailAddress")?profile.getString("emailAddress"):"dummy";
+                            user.setUsername(userId);
+                            user.setPassword(userId);
+
+                            user.setEmail(emailAddress);
+
+                            // other fields can be set just like with ParseObject
+                            user.put("phone", "911");
+
+                            user.signUpInBackground(new SignUpCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        //After finishing, go to MainActivity
+                                        Intent intent = new Intent(thisActivity, MainActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        ParseUser.logInInBackground(user.getUsername(), user.getUsername(), new LogInCallback() {
+                                            public void done(ParseUser user, com.parse.ParseException e) {
+                                                if (user != null) {
+
+                                                    //After finishing, go to MainActivity
+                                                    Intent intent = new Intent(thisActivity, MainActivity.class);
+                                                    startActivity(intent);
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            e.toString(),
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }catch(JSONException e)
+                        {
+
+                        }
+
+                      }
 
                     @Override
                     public void onApiError(LIApiError LIApiError) {
@@ -225,13 +269,6 @@ public class LoginActivity extends Activity {
          * ********************************************************
          */
 
-        ParseUser user = new ParseUser();
-        user.setUsername("John Doe");
-        user.setPassword("54321");
-        user.setEmail("johndoe@example.com");
-
-        // other fields can be set just like with ParseObject
-        user.put("phone", "911");
 
         /*
         Resources res = getResources();
@@ -250,38 +287,26 @@ public class LoginActivity extends Activity {
         userPicture.put("mediaurl", file);
         userPicture.saveInBackground();
 
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    //After finishing, go to MainActivity
-                    Intent intent = new Intent(thisActivity, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            e.toString(),
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+
         */
 
         // Login with Parse
         /** 2nd field (password which is "54321") has to be replaced with a unique identifier for each user. (LinkedIn ID - Samuel knows what I mean) */
-                                                   // field, "54321"
-        ParseUser.logInInBackground(user.getUsername(), "54321", new LogInCallback() {
-                    public void done(ParseUser user, com.parse.ParseException e) {
-                        if (user != null) {
-
-                            //After finishing, go to MainActivity
-                            Intent intent = new Intent(thisActivity, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    e.toString(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                                                  // field, "54321"
+//        ParseUser.logInInBackground(user.getUsername(), user.getUsername(), new LogInCallback() {
+//                    public void done(ParseUser user, com.parse.ParseException e) {
+//                        if (user != null) {
+//
+//                            //After finishing, go to MainActivity
+//                            Intent intent = new Intent(thisActivity, MainActivity.class);
+//                            startActivity(intent);
+//                        } else {
+//                            Toast.makeText(getApplicationContext(),
+//                                    e.toString(),
+//                                    Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
 
     }
 
