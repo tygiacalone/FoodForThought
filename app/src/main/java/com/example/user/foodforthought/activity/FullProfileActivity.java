@@ -30,10 +30,21 @@ public class FullProfileActivity extends ActionBarActivity {
     private ListView profileListView;
     private ListViewAdapter profileListViewAdapter;
     private String currentUser;
-    ArrayList<String> companyNames = new ArrayList<>(Arrays.asList("eBay", "Facebook", "Google"));
-    ArrayList<String> companyTitles = new ArrayList<>(Arrays.asList("intern1", "intern2", "intern3"));
-    ArrayList<String> companyDates = new ArrayList<>(Arrays.asList("2012-2013", "2013-2014", "2014-2015"));
-    ArrayList<String> companyExperience = new ArrayList<>(Arrays.asList("a b c d", "i j k l", "w x y z"));
+    ArrayList<String> companyNames1 = new ArrayList<>(Arrays.asList("Hulu", "eBay"));
+    ArrayList<String> companyTitles1 = new ArrayList<>(Arrays.asList("Software Engineering Intern",
+            "Front End & Design Intern"));
+    ArrayList<String> companyDates1 = new ArrayList<>(Arrays.asList("2014-2015", "2013-2014"));
+    ArrayList<String> companyExperience1 = new ArrayList<>(Arrays.asList(
+            "Helped implement the mobile app for Hulu and product managed a new feature",
+            "Helped design and developed the front end for a tool that will improve and automate the " +
+                    "seller onboarding experience"));
+    ArrayList<String> companyNames2 = new ArrayList<>(Arrays.asList("Cisco", "Qualcomm"));
+    ArrayList<String> companyTitles2 = new ArrayList<>(Arrays.asList("Worldwide Sales Intern",
+            "Software Engineering Intern"));
+    ArrayList<String> companyDates2 = new ArrayList<>(Arrays.asList("2014-2015", "2011-2012"));
+    ArrayList<String> companyExperience2 = new ArrayList<>(Arrays.asList(
+            "Marketed company products to several large firms in accordance with their interests",
+            "Worked on an internal testing tool that would significantly decrease testing times"));
 
 
 
@@ -52,6 +63,19 @@ public class FullProfileActivity extends ActionBarActivity {
         Intent intent = getIntent();
         currentUser = intent.getStringExtra("USER_ID");
 
+        String userID;
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", currentUser);
+        try {
+            String objectID = query.getFirst().getObjectId();
+            userID = objectID;
+        } catch (Exception e) {
+            return;
+        }
+
+        System.out.println("user ID = " + userID);
+
         TextView fullProfileMatchName = (TextView) findViewById(R.id.fullProfileMatchName);
         fullProfileMatchName.setText(currentUser);
 
@@ -61,8 +85,14 @@ public class FullProfileActivity extends ActionBarActivity {
 
         // Find the ListView resource
         profileListView = (ListView) findViewById(R.id.profileList);
-        profileListViewAdapter = new ListViewAdapter(this, companyNames,
-                companyTitles, companyDates, companyExperience);
+        if (userID.equals("eopfB0aSkv")) {
+            profileListViewAdapter = new ListViewAdapter(this, companyNames1,
+                    companyTitles1, companyDates1, companyExperience1);
+        }
+        else {
+            profileListViewAdapter = new ListViewAdapter(this, companyNames2,
+                    companyTitles2, companyDates2, companyExperience2);
+        }
 
         // Set the ListView Adapter
         profileListView.setAdapter(profileListViewAdapter);
@@ -114,7 +144,6 @@ public class FullProfileActivity extends ActionBarActivity {
         query.whereEqualTo("username", name);
         try {
             String objectID = query.getFirst().getString("imageID");
-            System.out.println(objectID);
             imageID = objectID;
         } catch (Exception e) {
             return;

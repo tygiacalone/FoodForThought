@@ -203,7 +203,7 @@ public class MainActivity extends ActionBarActivity {
             query.whereEqualTo("username", currentlyViewedProfile);
             try {
                 String objectID = query.getFirst().getString("imageID");
-                System.out.println(objectID);
+                // System.out.println(objectID);
                 retrieveImage(objectID);
             } catch (Exception e) {
                 // Profile doesn't exist
