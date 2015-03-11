@@ -38,7 +38,8 @@
             android:text="Logout"
             android:id="@+id/logout_li_button"
             android:layout_gravity="left|center_vertical"
-            android:onClick="logoutButtonClickHandler" />
+            android:onClick="logoutButtonClickHandler"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/at"
@@ -47,7 +48,8 @@
             android:layout_gravity="center_horizontal|top"
             android:text="access token value"
             android:textColor="#ffffffff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
 
     </FrameLayout>

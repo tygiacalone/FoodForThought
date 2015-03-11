@@ -226,12 +226,12 @@ public class LoginActivity extends Activity {
          */
 
         ParseUser user = new ParseUser();
-        user.setUsername("John Doe");
+        user.setUsername("Caroline");
         user.setPassword("54321");
-        user.setEmail("johndoe@example.com");
+        user.setEmail("");
 
         // other fields can be set just like with ParseObject
-        user.put("phone", "911");
+        //user.put("phone", "911");
 
         /*
         Resources res = getResources();
