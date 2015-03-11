@@ -2,12 +2,16 @@ package com.example.user.foodforthought.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +33,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -82,8 +87,8 @@ public class LoginActivity extends Activity {
     private SystemUiHider mSystemUiHider;
     private static final String request = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address)";
     Activity thisActivity;
-
-
+    protected LocationManager lM;
+    protected myLocationListener ll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +98,9 @@ public class LoginActivity extends Activity {
         setUpdateState();
 
         Parse.initialize(this, "vKMS21EgxqmkWPbZ4KMRc4p7PmUWONtatA4ZM2bn", "6gMhVDU5xcakoNIXDpBeykmyCuy3ka0e7pVkm59C");
-
+        lM = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        ll = new myLocationListener();
+            lM.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0,ll);
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
         thisActivity = this;
@@ -195,7 +202,6 @@ public class LoginActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         final ParseUser user = new ParseUser();
-
         LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
@@ -211,11 +217,17 @@ public class LoginActivity extends Activity {
                             String emailAddress = profile.has("emailAddress")?profile.getString("emailAddress"):"dummy";
                             user.setUsername(userId);
                             user.setPassword(userId);
-
+                            Location location = lM.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             user.setEmail(emailAddress);
 
                             // other fields can be set just like with ParseObject
-                            user.put("phone", "911");
+                            if(location != null)
+                            {
+                                ParseGeoPoint point = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
+                                user.put("location", point);
+                                lM.removeUpdates(ll);
+                                ll = null;
+                            }
 
                             user.signUpInBackground(new SignUpCallback() {
                                 public void done(ParseException e) {
@@ -398,7 +410,41 @@ public class LoginActivity extends Activity {
 
     }
 
+    public class myLocationListener implements LocationListener
+    {
 
+        @Override
+        public void onLocationChanged (Location location)
+
+        {
+
+        }
+
+        @Override
+        public void onProviderDisabled (String provider)
+
+        {
+
+            Toast.makeText (getApplicationContext (), "Gps Disabled", Toast.LENGTH_SHORT).show ();
+
+        }
+
+        @Override
+        public void onProviderEnabled (String provider)
+
+        {
+
+            Toast.makeText (getApplicationContext (), "Gps Enabled", Toast.LENGTH_SHORT).show ();
+
+        }
+
+        @Override
+        public void onStatusChanged (String provider, int status, Bundle extras)
+
+        {
+
+        }
+    }
     private static Scope buildScope(){
         return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
     }
